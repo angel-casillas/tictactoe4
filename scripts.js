@@ -16,8 +16,8 @@ var n = 0;
 
 $(document).ready(function(){
 
-  if (localStorage.getItem("mode") != null) {
-    const savedmode = localStorage.getItem("mode");
+  if (localStorage.getItem("ttt4mode") != null) {
+    const savedmode = localStorage.getItem("ttt4mode");
     let arr = savedmode.split("-");
     
     mode = {
@@ -44,7 +44,7 @@ $(document).ready(function(){
       tokens: arr[1]
     };
 
-    localStorage.setItem("mode", selectedmode);
+    localStorage.setItem("ttt4mode", selectedmode);
 
     start();
   });
@@ -234,31 +234,30 @@ function checkDiagonals4(r) {
   return {isLine: false};
 
 }
-function checkDiagonals3(r) {  
-  let diag_TL_BR_start = [tablero[0][0], tablero[1][1], tablero[2][2]];
-  let diag_TL_BR_end = [tablero[1][1], tablero[2][2], tablero[3][3]];
-  let allEqual = diag_TL_BR_start.every( (v) => v>0 && v === diag_TL_BR_start[0]);
-  if (allEqual) {
-    return  {isLine: true, type: 'diag1', subtype: 'start', line: {from : {r: 0, c: 0}, to: {r: 2, c: 2}}, winner: diag_TL_BR_start[0]};
-  } 
-  allEqual = diag_TL_BR_end.every( (v) => v>0 && v === diag_TL_BR_end[0]);
-  if (allEqual) {
-    return  {isLine: true, type: 'diag1', subtype: 'end', line: {from : {r: 1, c: 1}, to: {r: 3, c: 3}}, winner: diag_TL_BR_end[0]};
-  } 
+function checkDiagonals3(r) {
 
-  let diag_TR_BL_start = [tablero[0][3], tablero[1][2], tablero[2][1]];
-  let diag_TR_BL_end = [tablero[1][2], tablero[2][1], tablero[3][0]];
-  allEqual = diag_TR_BL_start.every( (v) => v>0 && v === diag_TR_BL_start[0]);
-  if (allEqual) {
-    return  {isLine: true, type: 'diag2', subtype: 'start', line: {from : {r: 0, c: 3}, to: {r: 2, c: 1}}, winner: diag_TR_BL_start[0]};
-  } 
-  allEqual = diag_TR_BL_end.every( (v) => v>0 && v === diag_TR_BL_end[0]);
-  if (allEqual) {
-    return  {isLine: true, type: 'diag2', subtype: 'end', line: {from : {r: 1, c: 2}, to: {r: 3, c: 0}}, winner: diag_TR_BL_end[0]};
-  } 
+  const diagonals = [
+    {id: "d00", type: "diag1", line: {from : {r: 0, c: 0}, to: {r: 2, c: 2}}, cells: [tablero[0][0], tablero[1][1], tablero[2][2]]},  
+    {id: "d01", type: "diag1", line: {from : {r: 0, c: 1}, to: {r: 2, c: 3}}, cells: [tablero[0][1], tablero[1][2], tablero[2][3]]},  
+    {id: "d02", type: "diag2", line: {from : {r: 0, c: 2}, to: {r: 2, c: 0}}, cells: [tablero[0][2], tablero[1][1], tablero[2][0]]},  
+    {id: "d03", type: "diag2", line: {from : {r: 0, c: 3}, to: {r: 2, c: 1}}, cells: [tablero[0][3], tablero[1][2], tablero[2][1]]},  
+    {id: "d10", type: "diag1", line: {from : {r: 1, c: 0}, to: {r: 3, c: 2}}, cells: [tablero[1][0], tablero[2][1], tablero[3][2]]},  
+    {id: "d11", type: "diag1", line: {from : {r: 1, c: 1}, to: {r: 3, c: 3}}, cells: [tablero[1][1], tablero[2][2], tablero[3][3]]},  
+    {id: "d12", type: "diag2", line: {from : {r: 1, c: 2}, to: {r: 3, c: 0}}, cells: [tablero[1][2], tablero[2][1], tablero[3][0]]},  
+    {id: "d13", type: "diag2", line: {from : {r: 1, c: 3}, to: {r: 3, c: 1}}, cells: [tablero[1][3], tablero[2][2], tablero[3][1]]}  
+  ];
 
-  return {isLine: false};
+  let result = {isLine: false};
+  diagonals.forEach(function(diagonal) {
+    console.log('diagonal', diagonal);
 
+    let allEqual = diagonal.cells.every( (v) => v>0 && v === diagonal.cells[0]);
+    if (allEqual) {
+      result = {isLine: true, type: diagonal.type, subtype: diagonal.id, line: diagonal.line, winner: diagonal.cells[0]};
+    } 
+  });
+
+  return result;
 }
 
 function checkRow(r) {
