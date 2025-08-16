@@ -1,304 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>4 en raya</title>
-
-    <style>
-		:root {
-			--td-border: 1px solid #5D349C;
-		}
-
-		body {
-			margin: 0;
-			background-color: #0A0140;
-			width: 100%;
-			height: 100%;
-			color: #333;
-			font-family: Montserrat;
-		}
-
-		a {
-			color: #333;
-			text-decoration: none;
-		}
-		#container {
-			margin: 30px 0 0;
-		}
-
-		#tablero {
-			width: max-content;
-			margin: 0 auto;
-		}
-
-		#tablero table {
-			border-radius: 5px;
-			border: solid 2px #BC91ED;
-			border-spacing: 0px;
-		}
-		#tablero table td {
-			width: 80px;
-			height: 80px;
-			padding: 0;
-		}
+		<title>4 en raya</title>
 		
-		#tablero table #row1 td,
-		#tablero table #row2 td,
-		#tablero table #row3 td {
-			border-bottom: var(--td-border);
-		}
-		#tablero table td.col2,
-		#tablero table td.col3,
-		#tablero table td.col4 {
-			border-left: var(--td-border);
-		}
+		<link rel="stylesheet" href="./css/styles.css" type="text/css"/>
 
-		#tablero table tr td a {
-			display: block;
-			width: 100%;
-			height: 100%;
-			cursor: not-allowed;
-		}
+	</head>
 
-		#tablero table tr td.empty a {
-			cursor: pointer;
-		}
-		#container.finalizado table tr td a {
-			cursor: not-allowed;
-		}
-		
-		#tablero table tr td.sel1 a {
-			background: url('img/t1.png');
-		}
-		#tablero table tr td.sel2 a {
-			background: url('img/t2.png');
-		}
-		#tablero table tr td.sel3 a {
-			background: url('img/t3.png');
-		}
-		#tablero table tr td.remove a {
-			opacity: .4;
-		}
+	<body>
 
-		.menu {
-			text-align: center;
-			margin-top: 20px;
-			margin-bottom: 50px;
-		} 
-		.botonera {
-			text-align: center;
-			margin-top: 50px;
-		}
-		
-		.botonera .btn {
-			background-color: #fff;  
-			border: 1px solid #BC91ED;
-			border-radius: 5px;
-			padding: 3px 10px;
-			border-radius: 10px;
-		}
-		
-		#tablero {
-			position: relative;
-		}
-		
-		#tablero .win img {
-			position: absolute;
-			top: 0;
-			left: 0;
-			display: none;
-		}
-		#container.finalizado.row0 .win img.row {
-			display: block;
-		}
-		#container.finalizado.row1 .win img.row {
-			display: block;
-			top: 81px;
-		}
-		#container.finalizado.row2 .win img.row {
-			display: block;
-			top: 162px;
-		}
-		#container.finalizado.row3 .win img.row {
-			display: block;
-			top: 243px;
-		}
-		
-		#container.finalizado.row0.end .win img.row,
-		#container.finalizado.row1.end .win img.row,
-		#container.finalizado.row2.end .win img.row,
-		#container.finalizado.row3.end .win img.row {
-			left: 81px;
-		}
-
-		#container.finalizado.col0 .win img.col {
-			display: block;
-		}
-		#container.finalizado.col1 .win img.col {
-			display: block;
-			left: 81px;
-		}
-		#container.finalizado.col2 .win img.col {
-			display: block;
-			left: 162px;
-		}
-		#container.finalizado.col3 .win img.col {
-			display: block;
-			left: 243px;
-		}
-		#container.finalizado.col0.end .win img.col,
-		#container.finalizado.col1.end .win img.col,
-		#container.finalizado.col2.end .win img.col,
-		#container.finalizado.col3.end .win img.col {
-			top: 81px;
-		}
-
-		#container.finalizado.diag1 .win img.diag1 {
-			display: block;
-		}
-		#container.finalizado.diag1.end .win img.diag1 {
-			left: 81px;
-			top: 81px;
-		}
-		#container.finalizado.diag2 .win img.diag2 {
-			display: block;
-		}
-		#container.finalizado.diag2.start .win img.diag2 {
-			left: 81px;
-		}
-		#container.finalizado.diag2.end .win img.diag2 {
-			top: 81px;
-		}
-		
-		.turno {
-			height: 79px;
-		}
-		.turno img {
-			display: none; 
-			margin: 0 auto;
-		}		
-		#container.finalizado .turno {
-			visibility: hidden;
-		}
-		#container.turno1 .turno img.t1 {
-			display: block;
-		}
-		#container.turno2 .turno img.t2 {
-			display: block;
-		}
-		#container.turno3 .turno img.t3 {
-			display: block;
-		}
-		
-		.result .winner, 
-		.result .tie {
-			display: none;	
-			text-align: center;
-		} 
-		.result .winner h1,
-		.result .tie h1 {
-			color: #fff;
-			margin: 50px 0 0px;
-		}
-		.result .winner img {
-			display: none;		
-			margin: 0 auto;
-		}
-		#container.finalizado .result .winner {
-			display: block;		
-		}
-
-		#container.finalizado.tie .result .winner {
-			display: none;		
-		}
-		#container.finalizado.tie .result .tie {
-			display: block;		
-		}
-		
-		#container.finalizado.t1wins .result .winner img.t1 {
-			display: block;
-		}
-		#container.finalizado.t2wins .result .winner img.t2 {
-			display: block;
-		}
-		#container.finalizado.t3wins .result .winner img.t3 {
-			display: block;
-		}
-
-    </style>
-
-  </head>
-
-  <body>
-
-	<div id="container">
-		<div class="menu">
-			<select id="menu_mode" name="mode">
-				<option value="3-3">3 en raya (3 fichas)</option>
-				<option value="3-4">3 en raya (4 fichas)</option>
-				<option value="3-5">3 en raya (5 fichas)</option>
-				<option value="4-3">4 en raya (3 fichas)</option>
-				<option value="4-4" selected>4 en raya (4 fichas)</option>
-				<option value="4-5">4 en raya (5 fichas)</option>
-			</select>
-		</div>
-		<div class="turno">
-			<img class="t1" src="./img/t1.png"/>
-			<img class="t2" src="./img/t2.png"/>
-			<img class="t3" src="./img/t3.png"/>
-		</div> <!-- .turno -->
-		<div id="tablero">
-			<table>
-				<tr id="row1" class="row">
-					<td id="row1col1" class="col"></td>
-					<td id="row1col2" class="col col2"></td>
-					<td id="row1col3" class="col col3"></td>
-					<td id="row1col4" class="col col4"></td>
-				</tr>
-				<tr id="row2" class="row">
-					<td id="row2col1" class="col"></td>
-					<td id="row2col2" class="col col2"></td>
-					<td id="row2col3" class="col col3"></td>
-					<td id="row2col4" class="col col4"></td>
-				</tr>
-				<tr id="row3" class="row">
-					<td id="row3col1" class="col"></td>
-					<td id="row3col2" class="col col2"></td>
-					<td id="row3col3" class="col col3"></td>
-					<td id="row3col4" class="col col4"></td>
-				</tr>
-				<tr id="row4" class="row">
-					<td id="row4col1" class="col"></td>
-					<td id="row4col2" class="col col2"></td>
-					<td id="row4col3" class="col col3"></td>
-					<td id="row4col4" class="col col4"></td>
-				</tr>
-			</table>
-			<div class="win">
-				<img class="row" src="img/win/wins4/row.png"/>
-				<img class="col" src="img/win/wins4/col.png"/>
-				<img class="diag1" src="img/win/wins4/diag_tr_bl.png"/>
-				<img class="diag2" src="img/win/wins4/diag_tl_br.png"/>
+		<div id="container">
+			<div class="menu">
+				<select id="menu_mode" name="mode">
+					<option value="3-3">3 en raya (3 fichas)</option>
+					<option value="3-4">3 en raya (4 fichas)</option>
+					<option value="3-5">3 en raya (5 fichas)</option>
+					<option value="4-3">4 en raya (3 fichas)</option>
+					<option value="4-4" selected>4 en raya (4 fichas)</option>
+					<option value="4-5">4 en raya (5 fichas)</option>
+				</select>
 			</div>
-		</div> <!-- #tablero -->
-		<div class="botonera">
-			<a href="#" id="clean" class="btn cleanbtn">Reiniciar</a>
-		</div> <!-- .botonera -->
-		
-		<div class="result">
-			<div class="winner">
-				<h1>Ganador!</h1>
+			<div class="turno">
 				<img class="t1" src="./img/t1.png"/>
 				<img class="t2" src="./img/t2.png"/>
 				<img class="t3" src="./img/t3.png"/>
-			</div> <!-- .winner -->
-		</div> <!-- .result -->
+			</div> <!-- .turno -->
+			<div id="tablero">
+				<table>
+					<tr id="row1" class="row">
+						<td id="row1col1" class="col"></td>
+						<td id="row1col2" class="col col2"></td>
+						<td id="row1col3" class="col col3"></td>
+						<td id="row1col4" class="col col4"></td>
+					</tr>
+					<tr id="row2" class="row">
+						<td id="row2col1" class="col"></td>
+						<td id="row2col2" class="col col2"></td>
+						<td id="row2col3" class="col col3"></td>
+						<td id="row2col4" class="col col4"></td>
+					</tr>
+					<tr id="row3" class="row">
+						<td id="row3col1" class="col"></td>
+						<td id="row3col2" class="col col2"></td>
+						<td id="row3col3" class="col col3"></td>
+						<td id="row3col4" class="col col4"></td>
+					</tr>
+					<tr id="row4" class="row">
+						<td id="row4col1" class="col"></td>
+						<td id="row4col2" class="col col2"></td>
+						<td id="row4col3" class="col col3"></td>
+						<td id="row4col4" class="col col4"></td>
+					</tr>
+				</table>
+				<div class="win">
+					<img class="row" src="img/win/wins4/row.png"/>
+					<img class="col" src="img/win/wins4/col.png"/>
+					<img class="diag1" src="img/win/wins4/diag_tr_bl.png"/>
+					<img class="diag2" src="img/win/wins4/diag_tl_br.png"/>
+				</div>
+			</div> <!-- #tablero -->
+			<div class="botonera">
+				<a href="#" id="clean" class="btn cleanbtn">Reiniciar</a>
+			</div> <!-- .botonera -->
+			
+			<div class="result">
+				<div class="winner">
+					<h1>Ganador!</h1>
+					<img class="t1" src="./img/t1.png"/>
+					<img class="t2" src="./img/t2.png"/>
+					<img class="t3" src="./img/t3.png"/>
+				</div> <!-- .winner -->
+			</div> <!-- .result -->
+			
+		</div> <!-- #container -->
 		
-	</div> <!-- #container -->
-	
-	<script src="./jquery-3.7.1.min.js"></script>
-	<script src="./scripts.js"></script>
-  </body>
+		<script src="./js/jquery-3.7.1.min.js"></script>
+		<script src="./js/scripts.js"></script>
+	</body>
 </html>
