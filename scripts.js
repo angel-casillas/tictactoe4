@@ -55,7 +55,8 @@ $(document).ready(function(){
 
 function start() {
   
-  $("#container").removeClass("finalizado tie turno2 turno3 t1wins t2wins t3wins start end row0 row1 row2 row3 col0 col1 col2 col3 diag1 diag2 wins3 wins4")
+  $("#container").removeClass("finalizado tie turno2 turno3 t1wins t2wins t3wins wins3 wins4")
+    .removeClass("start end row0 row1 row2 row3 col0 col1 col2 col3 diag1 diag2 d00 d01 d02 d03 d10 d11 d12 d13")
     .addClass("wins"+ mode.wins);
 
   $("#container .win img").each(function() {
